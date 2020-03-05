@@ -42,17 +42,6 @@
       				<?php if (isset($_SESSION['user']['photo']) && $_SESSION['user']['photo'] != ""): ?>
       					<img class="rounded-circle img-profil" src="<?= HOST . 'Web/Ressources/images/' . $_SESSION['compte']['identifiant'] . 's/'. $_SESSION['user']['photo'] ?>">
       				<?php endif ?>
-      				<!-- <img class="rounded-circle img-profil" src="
-      				<?php
-      					$src = HOST . 'Web/Ressources/images/' . $_SESSION['compte']['identifiant'] . 's/'; 
-      					if($_SESSION['compte']['identifiant'] == 'entreprise') {
-      						$src .= $_SESSION['user']['logo'];
-      					} else {
-      						$src .= $_SESSION['user']['photo'];
-      					}
-      					echo $src;
-      				?>
-      				"> -->
       			<?= strtoupper($_SESSION['user']['nom']); ?>
       			</a>      			
 			    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,9 +50,6 @@
 			    </button>
       			<div class="collapse navbar-collapse" id="navbarResponsive">
 			        <ul class="navbar-nav ml-auto">
-			        	<!-- <li class="nav-item">
-						    <a class="nav-link js-scroll-trigger text-uppercase" href="<?= HOST;?>"><i class="fas fa-home"></i></a>
-						</li> -->
 			          	<li class="nav-list nav-item">
 			            	<a class="nav-link js-scroll-trigger text-uppercase" href="#">Mon compte</a>
 		                	<ul class="list">

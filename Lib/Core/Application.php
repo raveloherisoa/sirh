@@ -35,6 +35,21 @@
 		}
 
 		/**
+		 * Récupérer l'utilisateur d'un route
+		 *
+		 * @return string|empty
+		 */
+		public function getUser()
+		{
+			$url 	= $this->request['page'];
+			$user = '';
+			if (key_exists($url, $this->getRoutes())) {
+				$user = $this->getRoutes()[$url]['user'];
+			}
+			return $user;
+		}
+
+		/**
 		 * Récupérer le module par rapport a l'URL
 		 *
 		 * @return string|empty

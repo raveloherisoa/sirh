@@ -29,10 +29,15 @@ $(document).ready(function(){
 		}
 		for (var i = 0; i < input.length; i++) {
 			if (input[i].value != "") {
-				autrePerso += input[i].value + "_";
+				autrePerso += (input[i].value).charAt(0).toUpperCase() + (input[i].value).slice(1) + "_";
 			}
 		}
 		$("#autrePersonnalite").val(autrePerso);
-		$("#personnalite").val(perso + autrePerso);
+		var tabPersonnalite    = ( perso + autrePerso).split("_");   
+	  	var newTabPersonnalite = tabPersonnalite.filter(function(elem, index, self) {
+	      	return index === self.indexOf(elem);
+	  	});
+
+		$("#personnalite").val(newTabPersonnalite.toString().replace(/\,/g, '_'));
 	});
 });

@@ -34,9 +34,9 @@ $(document).ready(function(){
 		if (pathname == "/manage/create-offre" || pathname == "/manage/update-offre") {
 			var dateLimite = $("#datepickerLimite").val().split('/');
 			$("#dateLimite").val(dateLimite[2] + '-' + dateLimite[1] + '-' + dateLimite[0]);
-			var checkbox = document.getElementsByName('qualite');
-			var input    = document.getElementsByName('autreQualite');
-			var perso   = ""; 
+			var checkbox   = document.getElementsByName('qualite');
+			var input      = document.getElementsByName('autreQualite');
+			var perso      = ""; 
 			var autrePerso = "";
 			for (var i = 0; i < checkbox.length; i++) {
 				var check = checkbox[i].checked;
@@ -46,11 +46,16 @@ $(document).ready(function(){
 			}
 			for (var i = 0; i < input.length; i++) {
 				if (input[i].value != "") {
-					autrePerso += input[i].value + "_";
+					autrePerso += (input[i].value).charAt(0).toUpperCase() + (input[i].value).slice(1) + "_";
 				}
 			}
 			$("#autrePersonnalite").val(autrePerso);
-			$("#personnalite").val(perso + autrePerso);
+			var tabPersonnalite    = ( perso + autrePerso).split("_");   
+		  	var newTabPersonnalite = tabPersonnalite.filter(function(elem, index, self) {
+		      	return index === self.indexOf(elem);
+		  	});
+
+			$("#personnalite").val(newTabPersonnalite.toString().replace(/\,/g, '_'));
 			
 			if ($('#dateLimite').val() < dateNow) {
 				$("#dateLimite-message").html("<ul><li>Date non valide </li></ul>");

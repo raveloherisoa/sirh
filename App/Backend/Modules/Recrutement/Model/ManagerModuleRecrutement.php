@@ -55,21 +55,23 @@
             $tabExperience = array();
             $manager       = new ManagerCandidat();
             $candidat      = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager       = new ManagerExperience(); 
-            $experiences   = $manager->lister(['idCandidat' => $candidat->getIdCandidat()]);
-            if (!empty($experiences)) {
-                foreach ($experiences as $experience) {
-                    $manager         = new ManagerSousDomaine(); 
-                    $sousDomaine     = $manager->chercher(['idSousDomaine' => $experience->getIdSousDomaine()]);
-                    $tabExperience[] = [
-                        'experience'  => $experience, 
-                        'sousDomaine' => $sousDomaine
-                    ];                      
+            if (!empty($candidat)) {
+                $manager       = new ManagerExperience(); 
+                $experiences   = $manager->lister(['idCandidat' => $candidat->getIdCandidat()]);
+                if (!empty($experiences)) {
+                    foreach ($experiences as $experience) {
+                        $manager         = new ManagerSousDomaine(); 
+                        $sousDomaine     = $manager->chercher(['idSousDomaine' => $experience->getIdSousDomaine()]);
+                        $tabExperience[] = [
+                            'experience'  => $experience, 
+                            'sousDomaine' => $sousDomaine
+                        ];                      
+                    }
+                    $resultats = [
+                        'candidat'    => $candidat, 
+                        'experiences' => $tabExperience
+                    ];
                 }
-                $resultats = [
-                    'candidat'    => $candidat, 
-                    'experiences' => $tabExperience
-                ];
             }
             return $resultats;
         } 
@@ -84,21 +86,23 @@
             $resultats  = array();
             $manager    = new ManagerCandidat();
             $candidat   = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager    = new ManagerFormation(); 
-            $formations = $manager->lister(['idCandidat' => $candidat->getIdCandidat()]);
-            if (!empty($formations)) {
-                foreach ($formations as $formation) {
-                    $manager         = new ManagerSousDomaine(); 
-                    $sousDomaine     = $manager->chercher(['idSousDomaine' => $formation->getIdSousDomaine()]);
-                    $tabFormation[]  = [
-                        'formation'   => $formation, 
-                        'sousDomaine' => $sousDomaine
+            if (!empty($candidat)) {
+                $manager    = new ManagerFormation(); 
+                $formations = $manager->lister(['idCandidat' => $candidat->getIdCandidat()]);
+                if (!empty($formations)) {
+                    foreach ($formations as $formation) {
+                        $manager         = new ManagerSousDomaine(); 
+                        $sousDomaine     = $manager->chercher(['idSousDomaine' => $formation->getIdSousDomaine()]);
+                        $tabFormation[]  = [
+                            'formation'   => $formation, 
+                            'sousDomaine' => $sousDomaine
+                        ];
+                    }
+                    $resultats = [
+                        'candidat'   => $candidat, 
+                        'formations' => $tabFormation
                     ];
                 }
-                $resultats = [
-                    'candidat'   => $candidat, 
-                    'formations' => $tabFormation
-                ];
             }
             return $resultats;
         } 
@@ -113,24 +117,26 @@
             $resultats = array();
             $manager   = new ManagerCandidat();
             $candidat  = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager   = new ManagerDiplome(); 
-            $diplomes  = $manager->lister(['idCandidat' => $candidat->getIdCandidat()]);
-            if (!empty($diplomes)) {
-                foreach ($diplomes as $diplome) {
-                    $manager      = new ManagerDomaine(); 
-                    $domaine      = $manager->chercher(['idDomaine' => $diplome->getIdDomaine()]);
-                    $manager      = new ManagerNiveauEtude();
-                    $niveauEtude  = $manager->chercher(['idNiveauEtude' => $diplome->getIdNiveauEtude()]);
-                    $tabDiplome[] = [
-                        'diplome'     => $diplome, 
-                        'domaine'     => $domaine, 
-                        'niveauEtude' => $niveauEtude
+            if (!empty($candidat)) {
+                $manager   = new ManagerDiplome(); 
+                $diplomes  = $manager->lister(['idCandidat' => $candidat->getIdCandidat()]);
+                if (!empty($diplomes)) {
+                    foreach ($diplomes as $diplome) {
+                        $manager      = new ManagerDomaine(); 
+                        $domaine      = $manager->chercher(['idDomaine' => $diplome->getIdDomaine()]);
+                        $manager      = new ManagerNiveauEtude();
+                        $niveauEtude  = $manager->chercher(['idNiveauEtude' => $diplome->getIdNiveauEtude()]);
+                        $tabDiplome[] = [
+                            'diplome'     => $diplome, 
+                            'domaine'     => $domaine, 
+                            'niveauEtude' => $niveauEtude
+                        ];
+                    }
+                    $resultats = [
+                        'candidat' => $candidat, 
+                        'diplomes' => $tabDiplome
                     ];
                 }
-                $resultats = [
-                    'candidat' => $candidat, 
-                    'diplomes' => $tabDiplome
-                ];
             }
             return $resultats;
         } 
@@ -190,24 +196,26 @@
             $resultats  = array();
             $manager    = new ManagerEntreprise();
             $entreprise = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager    = new ManagerOffre();
-            $offres     = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
-            if (!empty($offres)) {
-                foreach ($offres as $offre) {
-                    $manager     = new ManagerSousDomaine();
-                    $sousDomaine = $manager->chercher(['idSousDomaine' => $offre->getIdSousDomaine()]);
-                    $manager     = new ManagerContrat();
-                    $contrat     = $manager->chercher(['idContrat' => $offre->getIdContrat()]);
-                    $tabOffre[]  = [
-                        'offre'       => $offre, 
-                        'sousDomaine' => $sousDomaine, 
-                        'contrat'     => $contrat
-                    ];                        
-                } 
-                $resultats = [
-                    'entreprise' => $entreprise, 
-                    'offres'     => $tabOffre
-                ];
+            if (!empty($entreprise)) {
+                $manager    = new ManagerOffre();
+                $offres     = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+                if (!empty($offres)) {
+                    foreach ($offres as $offre) {
+                        $manager     = new ManagerSousDomaine();
+                        $sousDomaine = $manager->chercher(['idSousDomaine' => $offre->getIdSousDomaine()]);
+                        $manager     = new ManagerContrat();
+                        $contrat     = $manager->chercher(['idContrat' => $offre->getIdContrat()]);
+                        $tabOffre[]  = [
+                            'offre'       => $offre, 
+                            'sousDomaine' => $sousDomaine, 
+                            'contrat'     => $contrat
+                        ];                        
+                    } 
+                    $resultats = [
+                        'entreprise' => $entreprise, 
+                        'offres'     => $tabOffre
+                    ];
+                }
             }
             return $resultats;
         }
@@ -223,42 +231,44 @@
             $parameters               = array();
             $manager                  = new ManagerCandidat();
             $candidat                 = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $parameters['idCandidat'] = $candidat->getIdCandidat();
-            if (!empty($parameters)) {
-                $manager      = new ManagerCandidature();
-                $candidatures = $manager->lister($parameters);
-                if (!empty($candidatures)) {
-                    foreach ($candidatures as $candidature) {
-                        $manager         = new ManagerOffre();
-                        $offre           = $manager->chercher(['idOffre' => $candidature->getIdOffre()]);
-                        $manager         = new ManagerEntreprise();
-                        $entreprise      = $manager->chercher(['idEntreprise' => $offre->getIdEntreprise()]);
-                        $manager         = new ManagerCandidat();
-                        $candidat        = $manager->chercher(['idCandidat' => $candidature->getIdCandidat()]);
-                        $manager         = new ManagerEntretien();
-                        $entretien       = $manager->chercher(['idCandidature' => $candidature->getIdCandidature()]);
-                        $manager         = new ManagerNiveauEntretien();
-                        $niveauEntretien = "";
-                        $interlocuteurs  = "";
-                        if (!empty($entretien)) {
-                            $niveauEntretien = $manager->chercher(['idNiveauEntretien' => $entretien->getIdNiveauEntretien()]);
-                            if (!empty($niveauEntretien)) {
-                                $manager        = new ManagerInterlocuteur();
-                                $interlocuteurs = $manager->lister(['idNiveauEntretien' => $niveauEntretien->getIdNiveauEntretien()]);
+            if (!empty($candidat)) {
+                  $parameters['idCandidat'] = $candidat->getIdCandidat();
+                if (!empty($parameters)) {
+                    $manager      = new ManagerCandidature();
+                    $candidatures = $manager->lister($parameters);
+                    if (!empty($candidatures)) {
+                        foreach ($candidatures as $candidature) {
+                            $manager         = new ManagerOffre();
+                            $offre           = $manager->chercher(['idOffre' => $candidature->getIdOffre()]);
+                            $manager         = new ManagerEntreprise();
+                            $entreprise      = $manager->chercher(['idEntreprise' => $offre->getIdEntreprise()]);
+                            $manager         = new ManagerCandidat();
+                            $candidat        = $manager->chercher(['idCandidat' => $candidature->getIdCandidat()]);
+                            $manager         = new ManagerEntretien();
+                            $entretien       = $manager->chercher(['idCandidature' => $candidature->getIdCandidature()]);
+                            $manager         = new ManagerNiveauEntretien();
+                            $niveauEntretien = "";
+                            $interlocuteurs  = "";
+                            if (!empty($entretien)) {
+                                $niveauEntretien = $manager->chercher(['idNiveauEntretien' => $entretien->getIdNiveauEntretien()]);
+                                if (!empty($niveauEntretien)) {
+                                    $manager        = new ManagerInterlocuteur();
+                                    $interlocuteurs = $manager->lister(['idNiveauEntretien' => $niveauEntretien->getIdNiveauEntretien()]);
+                                }
                             }
+                            $resultats[]     = [
+                                'candidature'     => $candidature, 
+                                'entretien'       => $entretien,
+                                'offre'           => $offre, 
+                                'entreprise'      => $entreprise,
+                                'candidat'        => $candidat,
+                                'niveauEntretien' => $niveauEntretien,
+                                'interlocuteurs'  => $interlocuteurs
+                            ];
                         }
-                        $resultats[]     = [
-                            'candidature'     => $candidature, 
-                            'entretien'       => $entretien,
-                            'offre'           => $offre, 
-                            'entreprise'      => $entreprise,
-                            'candidat'        => $candidat,
-                            'niveauEntretien' => $niveauEntretien,
-                            'interlocuteurs'  => $interlocuteurs
-                        ];
                     }
-                }
-            }         
+                }       
+            }  
             return $resultats;
         } 
 
@@ -342,27 +352,29 @@
             $resultats         = array();
             $manager           = new ManagerEntreprise();
             $entreprise        = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager           = new ManagerNiveauEntretien();
-            $niveauxEntretiens = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
-            $minOrdre          = $manager->getMinOrdre($entreprise->getIdEntreprise());
-            extract($minOrdre);
-            if (!empty($niveauxEntretiens) && !isset($parameters['idNiveauEntretien'])) {
-                foreach ($niveauxEntretiens as $niveauEntretien) {
-                    if ($niveauEntretien->getOrdre() == $minOrdre) {
-                        $parameters['idNiveauEntretien'] = $niveauEntretien->getIdNiveauEntretien();
+            if (!empty($entreprise)) {
+                $manager           = new ManagerNiveauEntretien();
+                $niveauxEntretiens = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+                $minOrdre          = $manager->getMinOrdre($entreprise->getIdEntreprise());
+                extract($minOrdre);
+                if (!empty($niveauxEntretiens) && !isset($parameters['idNiveauEntretien'])) {
+                    foreach ($niveauxEntretiens as $niveauEntretien) {
+                        if ($niveauEntretien->getOrdre() == $minOrdre) {
+                            $parameters['idNiveauEntretien'] = $niveauEntretien->getIdNiveauEntretien();
+                        }
                     }
                 }
-            }
-            if (isset($parameters['idOffre'])) {
-                $resultats = [
-                    'niveauxEntretiens' => $niveauxEntretiens,
-                    'entretiens'        => $this->listerEntretiensParOffre($parameters)
-                ];
-            } else {
-                $resultats = [
-                    'niveauxEntretiens' => $niveauxEntretiens,
-                    'entretiens'        => $this->listerEntretiensParEntreprise($parameters)
-                ];
+                if (isset($parameters['idOffre'])) {
+                    $resultats = [
+                        'niveauxEntretiens' => $niveauxEntretiens,
+                        'entretiens'        => $this->listerEntretiensParOffre($parameters)
+                    ];
+                } else {
+                    $resultats = [
+                        'niveauxEntretiens' => $niveauxEntretiens,
+                        'entretiens'        => $this->listerEntretiensParEntreprise($parameters)
+                    ];
+                }
             }
             return $resultats;
         }
@@ -413,11 +425,11 @@
             $resultats         = array();
             $manager           = new ManagerEntreprise();
             $entreprise        = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager           = new ManagerOffre();
-            $offres            = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
-            if (!empty($offres)) {
-                foreach ($offres as $offre) {
-                    //if ($offre->getDateLimite() > date('Y-m-d')) {
+            if (!empty($entreprise)) {
+                $manager           = new ManagerOffre();
+                $offres            = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+                if (!empty($offres)) {
+                    foreach ($offres as $offre) {
                         $manager      = new ManagerCandidature();
                         $candidatures = $manager->lister(['idOffre' => $offre->getIdOffre()]);
                         if (!empty($candidatures)) {
@@ -438,7 +450,7 @@
                                 }
                             }
                         }
-                    //}
+                    }
                 }
             }
             return $resultats;
@@ -456,11 +468,13 @@
             $resultats         = array();
             $manager           = new ManagerEntreprise();
             $entreprise        = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $manager           = new ManagerNiveauEntretien();
-            $niveauxEntretiens = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
-            if (!empty($niveauxEntretiens)) {
-                foreach ($niveauxEntretiens as $niveauEntretien) {
-                    $resultats[] = $niveauEntretien;
+            if (!empty($entreprise)) {
+                $manager           = new ManagerNiveauEntretien();
+                $niveauxEntretiens = $manager->lister(['idEntreprise' => $entreprise->getIdEntreprise()]);
+                if (!empty($niveauxEntretiens)) {
+                    foreach ($niveauxEntretiens as $niveauEntretien) {
+                        $resultats[] = $niveauEntretien;
+                    }
                 }
             }
             return $resultats;
@@ -476,37 +490,40 @@
             $resultats      = Array();
             $manager        = new ManagerCandidat();
             $candidat       = $manager->chercher(['idCompte' => $_SESSION['compte']['idCompte']]);
-            $profilCandidat = $manager->specifierProfilCandidat(['idCandidat' => $candidat->getIdCandidat()]);
-            extract($profilCandidat);
-            $managerOffre = new ManagerOffre();
-            $offres       = $managerOffre->lister(null);
-            if (!empty($offres)) {
-                foreach ($offres as $offre) {
-                    $manager = new ManagerCandidature();
-                    $candidature = $manager->chercher(['idOffre' => $offre->getIdOffre(), 'idCandidat' => $candidat->getIdCandidat()]);
-                    if (empty($candidature)) {
-                        if ($offre->getDateLimite() >= date('Y-m-d')) {
-                            $profilOffre = $managerOffre->specifierProfilOffre(['idOffre' => $offre->getIdOffre()]);
-                            if (!empty($experiences)) {
-                                foreach ($experiences as $experience) {
-                                    if ($profilOffre['experience']['sousDomaine'] == $experience['sousDomaine'] && $profilOffre['experience']['annee'] <= $experience['annee']) {
-                                        echo "test"; exit();
-                                        $resultats[] = $this->voirDetailOffre(['idOffre' => $offre->getIdOffre()]);
+            if (!empty($candidat)) {
+                $profilCandidat = $manager->specifierProfilCandidat(['idCandidat' => $candidat->getIdCandidat()]);
+                extract($profilCandidat);
+                $managerOffre = new ManagerOffre();
+                $offres       = $managerOffre->lister(null);
+                if (!empty($offres)) {
+                    foreach ($offres as $offre) {
+                        $manager = new ManagerCandidature();
+                        $candidature = $manager->chercher(['idOffre' => $offre->getIdOffre(), 'idCandidat' => $candidat->getIdCandidat()]);
+                        if (empty($candidature)) {
+                            if ($offre->getDateLimite() >= date('Y-m-d')) {
+                                $profilOffre = $managerOffre->specifierProfilOffre(['idOffre' => $offre->getIdOffre()]);
+                                if (!empty($experiences)) {
+                                    foreach ($experiences as $experience) {
+                                        if ($profilOffre['experience']['sousDomaine'] == $experience['sousDomaine'] && $profilOffre['experience']['annee'] <= $experience['annee']) {
+                                            echo "test"; exit();
+                                            $resultats[] = $this->voirDetailOffre(['idOffre' => $offre->getIdOffre()]);
+                                        }
                                     }
-                                }
-                            } else if (!empty($diplomes)) {
-                                foreach ($diplomes as $diplome) {
-                                    if ($profilOffre['diplome']['domaine'] == $diplome['domaine'] && $profilOffre['diplome']['niveau'] <= $diplome['niveau']) {
-                                        $resultats[] = $this->voirDetailOffre(['idOffre' => $offre->getIdOffre()]);
+                                } else if (!empty($diplomes)) {
+                                    foreach ($diplomes as $diplome) {
+                                        if ($profilOffre['diplome']['domaine'] == $diplome['domaine'] && $profilOffre['diplome']['niveau'] <= $diplome['niveau']) {
+                                            $resultats[] = $this->voirDetailOffre(['idOffre' => $offre->getIdOffre()]);
+                                        }
                                     }
                                 }
                             }
                         }
+                        
                     }
-                    
-                }
+                }                
+                return $this->trierOffres($candidat, $resultats);
             }
-            return $this->trierOffres($candidat, $resultats);
+            return "";
         }
 
         /**

@@ -28,9 +28,11 @@
 					$url 		  = (string)$route['url'];
 					$module 	  = (string)$route['module'];
 					$action 	  = (string)$route['action'];
+					$user 		  = (string)$route['user'];
 					$routes[$url] = [
 						'module' => $module, 
-						'action' => $action
+						'action' => $action,
+						'user'   => $user
 					];
 				}
 				return $routes;

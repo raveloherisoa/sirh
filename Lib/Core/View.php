@@ -35,12 +35,16 @@
 		 *
 		 * @return empty
 		 */
-		public function send($appName, $module, $data)
+		public function send($appName, $module, $data, $user)
 		{   
 			$file = '';
 			if (!empty($appName)) {
 				if (!empty($module)) {
-					$file = __DIR__ .'/../../App/'. $appName .'/Modules/'. $module .'/Views/'. $this->template .'.phtml';				
+					if ((isset($_SESSION['compte']) && $_SESSION['compte']['identifiant'] == $user) || $user == "") {
+						$file = __DIR__ .'/../../App/'. $appName .'/Modules/'. $module .'/Views/'. $this->template .'.phtml';
+					} else {
+						$file = __DIR__ .'/../../Errors/404.phtml';
+					}									
 				} else {
 					$file = __DIR__ .'/../../App/'. $appName .'/Templates/'. $this->template .'.phtml';;
 				}

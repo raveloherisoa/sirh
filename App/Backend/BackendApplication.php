@@ -39,6 +39,7 @@
 		public function run() 
 		{
 			$module = ucfirst($this->getModule());
+			$user   = $this->getUser();
 			if (!empty($module)) {
 				$action            = $this->getAction();
 				$controller        = '\App\\' . $this->appName . '\Modules\\' . $module . '\\' . $this->getController();				
@@ -51,8 +52,8 @@
 				$data 	= null;
 			}
 			
-			$view = new View($action); 
-			$view->send($this->appName, $module, $data);
+			$view = new View($action);
+			$view->send($this->appName, $module, $data, $user);
 				
 		}
 	}
